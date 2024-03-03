@@ -3,6 +3,7 @@ node_modules/
 
 # Environment configuration files
 .env
+package-lock.json
 
 # Build output
 src/

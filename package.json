@@ -1,38 +1,24 @@
 {
-  "name": "currency-app",
-  "version": "0.1.1",
+  "name": "currency-api",
+  "version": "0.2.0",
   "private": true,
   "scripts": {
-    "dev": "next dev",
-    "build": "next build",
-    "start": "next start",
-    "lint": "next lint",
-    "format": "prettier --write \"**/*.{ts}\""
+    "format": "prettier --write \"**/*.{ts}\"",
+    "start": "node dist/src/main.js"
   },
   "dependencies": {
     "@nestjs/common": "^10.3.3",
     "@nestjs/core": "^10.3.3",
-    "@nestjs/platform-express": "^10.3.3",
     "dotenv": "^16.4.5",
     "dotnet": "^1.1.4",
     "mongodb": "^6.3.0",
-    "mongoose": "^8.2.0",
-    "next": "14.1.0",
-    "react": "^18",
-    "react-dom": "^18",
     "tsc": "^2.0.4"
   },
   "devDependencies": {
-    "@types/dotenv": "^8.2.0",
     "@types/node": "^20.11.22",
-    "@types/react": "^18",
-    "@types/react-dom": "^18",
     "autoprefixer": "^10.0.1",
     "eslint": "^8",
-    "eslint-config-next": "14.1.0",
-    "postcss": "^8",
     "prettier": "^3.2.5",
-    "tailwindcss": "^3.3.0",
     "typescript": "^5.3.3"
   }
 }
