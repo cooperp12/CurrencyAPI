@@ -5,4 +5,8 @@ node_modules/
 .env
 
 # Build output
-dist/
+src/
+
+# All currency data collected
+all.json
+

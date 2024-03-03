@@ -1,6 +1,7 @@
 import { CurrencyObject } from '../interfaces/models'
 import { Collection } from 'mongodb'
 
+/*
 export async function checkCollectionExistsAsync(
 	db: Collection<CurrencyObject>,
 	collectionName: string,
@@ -30,3 +31,4 @@ export async function checkCollectionExistsAsync(
 		return false
 	}
 }
+*/

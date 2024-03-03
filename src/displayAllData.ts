@@ -1,6 +1,7 @@
 import { CurrencyObject } from '../interfaces/models'
 import { Collection } from 'mongodb'
 
+/*
 export async function displayAllData(
 	db: Collection<CurrencyObject>,
 	collectionName: string,
@@ -41,4 +42,4 @@ export async function displayAllData(
 			(error as Error).message || 'Unknown error'
 		)
 	}
-}
+*/

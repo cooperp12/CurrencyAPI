@@ -1,6 +1,7 @@
 import { Collection, Decimal128 } from 'mongodb'
 import { CurrencyObject } from '../interfaces/models'
 
+/*
 export async function addDataToDB(
 	db: Collection<CurrencyObject>,
 	collectionName: string,
@@ -102,3 +103,4 @@ export async function addDataToDB(
 		throw error
 	}
 }
+*/

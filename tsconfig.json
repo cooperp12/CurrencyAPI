@@ -4,9 +4,13 @@
     "module": "commonjs",
     "outDir": "./dist",
     "strict": true,
-    "noEmitHelpers": true, // Avoid emitting helper functions in every file, reducing redundancy
-    "importHelpers": true, // Import TypeScript helper functions from 'tslib' instead of including them in every file
-    "types": []
+    "noEmitHelpers": true,
+    "importHelpers": true,
+    "experimentalDecorators": true, // Enable experimental support for decorators
+    "emitDecoratorMetadata": true, // Emit design-type metadata for decorated declarations in source
+    "types": [],
+    "esModuleInterop": true, // Enables emit interoperability between CommonJS and ES Modules via creation of namespace objects for all imports
+    "forceConsistentCasingInFileNames": true // Ensure case consistency in file names
   },
-  "exclude": ["node_modules", "./node_modules"]
+  "exclude": ["node_modules", "./dist"]
 }

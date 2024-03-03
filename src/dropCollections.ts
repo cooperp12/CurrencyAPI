@@ -1,6 +1,7 @@
 import { Collection } from 'mongodb'
 import { CurrencyObject } from '../interfaces/models'
 
+/*
 export async function dropCollections(
 	db: Collection<CurrencyObject>,
 	collectionName: string
@@ -17,3 +18,4 @@ export async function dropCollections(
 		throw error // Re-throw the error to handle it further up the call stack if necessary
 	}
 }
+*/

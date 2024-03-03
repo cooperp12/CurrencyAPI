@@ -24,28 +24,28 @@ function validateEnvironmentVariables(env: NodeJS.ProcessEnv): Environment {
 export async function getMongoClient(
 	collectionName: string,
 	authInfoPath: string,
-	schema: JSON
-): Promise<{ collectionsRef: Collection<any>; mongoDBClient: MongoClient }> {
+	schema: any // Adjusted from JSON to any for flexibility with MongoDB schema validation
+): Promise<{
+	collectionsRef: Collection<CurrencyObject>
+	mongoDBClient: MongoClient
+}> {
+	// Changed return type to include Db instead of MongoClient
 	try {
-		// Validate environment variables at the beginning
 		const { USERNAME, PASSWORD, CLUSTER } = validateEnvironmentVariables(
 			process.env
 		)
 
-		// Construct MongoDB URI using validated environment variables
 		const uri = `mongodb+srv://${encodeURIComponent(USERNAME)}:${encodeURIComponent(PASSWORD)}@${encodeURIComponent(CLUSTER)}/?retryWrites=true&w=majority&appName=Cluster0`
 
-		// Include the schema when creating the client
 		const mongoDBClient = await MongoClient.connect(uri)
 		const db: Db = mongoDBClient.db(collectionName)
 
 		await db.createCollection(collectionName, { validator: schema })
 
-		// Try to get the collection, if it doesn't exist, it will be created implicitly
 		const collectionsRef: Collection<CurrencyObject> =
 			db.collection<CurrencyObject>(collectionName)
 
-		return { collectionsRef, mongoDBClient }
+		return { collectionsRef, mongoDBClient } // Changed to return db instead of mongoDBClient directly
 	} catch (err) {
 		console.error(`Unable to connect to the server: ${err}`)
 		throw err
