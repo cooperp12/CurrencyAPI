@@ -15,8 +15,7 @@ To set up the project, ensure you have Node.js and npm installed. Then follow th
 
 1. Clone the repository to your local machine.
 2. Navigate to the project directory and run `npm install` to install the dependencies.
-3. Ensure MongoDB is running and accessible.
-4. Start the application by running `npm start`.
+3. Ensure MongoDB is running and accessible. You will need to add .env file with the appropriate variables. 
 
 ## Usage
 
@@ -29,13 +28,5 @@ The service exposes three main endpoints:
 
 ## Development
 
-- Use `tsc -p tsconfig.json` to compile TypeScript files.
+- Use `tsc -p tsconfig.json && node dist\src\main.js` to compile TypeScript files and run in Node
 - Use `npx prettier --write "**/*.ts"` to format the code.
-
-## Contributing
-
-Contributions to the project are welcome. Please ensure to follow the project's coding standards and submit your pull requests for review.
-
-## License
-
-This project is licensed under the MIT License - see the LICENSE file for details.
