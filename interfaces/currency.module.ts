@@ -4,7 +4,7 @@ import { HealthCheckController } from './healthcheck.controller'
 import { MongoService } from './currency.service'
 
 @Module({
-	controllers: [HealthCheckController, CurrencyDataController], // Add your new controller here
+	controllers: [HealthCheckController, CurrencyDataController],
 	providers: [MongoService],
 })
 export class CurrencyModule {}

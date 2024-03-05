@@ -11,7 +11,7 @@ let CurrencyModule = class CurrencyModule {
 exports.CurrencyModule = CurrencyModule;
 exports.CurrencyModule = CurrencyModule = tslib_1.__decorate([
     (0, common_1.Module)({
-        controllers: [healthcheck_controller_1.HealthCheckController, currency_controller_1.CurrencyDataController], // Add your new controller here
+        controllers: [healthcheck_controller_1.HealthCheckController, currency_controller_1.CurrencyDataController],
         providers: [currency_service_1.MongoService],
     })
 ], CurrencyModule);

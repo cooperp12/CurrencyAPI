@@ -9,9 +9,8 @@ import {
 } from '@nestjs/common'
 import { MongoService } from './currency.service'
 
-export
 @Controller('currency-data')
-class CurrencyDataController {
+export class CurrencyDataController {
 	constructor(private readonly mongoService: MongoService) {}
 
 	@Post('add')
