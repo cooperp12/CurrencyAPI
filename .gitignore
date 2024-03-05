@@ -8,6 +8,9 @@ package-lock.json
 # Build output
 dist/
 
+# Build output
+dist/interfaces
+
 # All currency data collected
 all.json
 
