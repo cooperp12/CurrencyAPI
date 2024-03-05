@@ -15,7 +15,7 @@ To set up the project, ensure you have Node.js and npm installed. Then follow th
 
 1. Clone the repository to your local machine.
 2. Navigate to the project directory and run `npm install` to install the dependencies.
-3. Ensure MongoDB is running and accessible. You will need to add .env file with the appropriate variables. 
+3. Ensure MongoDB is running and accessible. You will need to add a `.env` file with the appropriate variables. 
 
 ## Usage
 
@@ -26,7 +26,26 @@ The service exposes three main endpoints:
 - `/currency-data/remove` for removing currency data by date.
 - `/currency-data/getInformation` for retrieving currency data by a specific date or the most recent data if no date is provided.
 
-## Development
+## Scripts
 
-- Use `tsc -p tsconfig.json && node dist\src\main.js` to compile TypeScript files and run in Node
-- Use `npx prettier --write "**/*.ts"` to format the code.
+This project includes several npm scripts for development and production purposes:
+
+- `npm run format`: Formats code using Prettier for consistent code style.
+- `npm run build`: Compiles the TypeScript code into JavaScript, preparing it for execution.
+- `npm run start`: Compiles the code and starts the application. Use this for production.
+- `npm run start:dev`: Formats the code, compiles it, and starts the application with Node.js. Ideal for development environments.
+
+## Dependencies
+
+- **NestJS:** Provides the framework for building the application.
+- **dotenv:** Loads environment variables from a `.env` file.
+- **mongodb:** The MongoDB driver for Node.js, used for database interactions.
+- **Typescript:** Adds static type definitions to JavaScript, improving reliability and maintainability.
+
+## DevDependencies
+
+- **@types/node:** Provides TypeScript type definitions for Node.js.
+- **eslint:** A static code analysis tool for identifying problematic patterns in JavaScript code.
+- **prettier:** An opinionated code formatter that supports multiple languages and integrates with most editors.
+- **typescript:** The language the project is written in, adding types to JavaScript for safer coding.
+
