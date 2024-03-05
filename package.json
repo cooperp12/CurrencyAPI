@@ -3,8 +3,11 @@
   "version": "0.2.0",
   "private": true,
   "scripts": {
-    "format": "prettier --write \"**/*.{ts}\"",
-    "start": "node dist/src/main.js"
+    "format": "prettier --write \"src/**/*.ts\" \"interfaces/**/*.ts\"",
+    "build": "tsc -p tsconfig.json",
+    "start": "npm run build && node dist/src/main.js",
+    "start:dev": "npm run format && npm run build && node dist/src/main.js"
+
   },
   "dependencies": {
     "@nestjs/common": "^10.3.3",
