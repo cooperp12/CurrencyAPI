@@ -17,7 +17,10 @@ export class CurrencyDataController {
 	async addCurrencyData(@Body() currencyDataJSON: any) {
 		//console.log(currencyDataJSON); // Log the received data
 		try {
-			await this.mongoService.addDataToDB(currencyDataJSON)
+			await this.mongoService.addDataToDB(
+				currencyDataJSON,
+				await this.mongoService.getCollectionRef()
+			)
 			return { message: 'Data successfully added to the database.' }
 		} catch (error) {
 			console.error('Error adding data:', error)
@@ -45,8 +48,9 @@ export class CurrencyDataController {
 	@Get('getInformation')
 	async getCurrencyData(@Body() body: { date: string }) {
 		try {
+			// data was used as it may be one or many objects in the collection
 			const data = await this.mongoService.getCurrencyData(body.date)
-			return { data: data }
+			return { CurrencyObject: data }
 		} catch (error) {
 			console.error('Error getting data:', error)
 			throw new HttpException(

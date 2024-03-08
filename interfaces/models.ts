@@ -6,12 +6,14 @@ export interface Environment {
 	CLUSTER: string
 }
 
+export interface CurrencyCode {
+	[currency: string]: {
+		AUDPerUnit: Decimal128
+		UnitsPerAUD: Decimal128
+	}
+}
+
 export interface CurrencyObject {
 	Date: Date
-	CurrencyCode: {
-		[currency: string]: {
-			AUDPerUnit: Decimal128
-			UnitsPerAUD: Decimal128
-		}
-	}
+	CurrencyCode: CurrencyCode
 }

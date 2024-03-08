@@ -1,17 +1,30 @@
 import { jsonParser } from '../src/helpFunctions'
 import { getMongoClient } from '../src/helpFunctions'
-import { Injectable, OnModuleInit, OnModuleDestroy } from '@nestjs/common'
+import {
+	Injectable,
+	OnModuleInit,
+	OnModuleDestroy,
+	HttpException,
+	HttpStatus,
+} from '@nestjs/common'
 import { MongoClient, Collection, Decimal128 } from 'mongodb'
-import { CurrencyObject } from './models'
+import { CurrencyCode, CurrencyObject } from './models'
 
 export
 @Injectable()
 class MongoService implements OnModuleInit, OnModuleDestroy {
 	private collectionsRef!: Collection<CurrencyObject>
 	private mongoDBClient!: MongoClient
-	private authInfoPath = './schema.json'
 	private collectionName = 'currency_data'
 	private schemaPath = './schema.json'
+
+	public async getCollectionRef() {
+		return this.collectionsRef
+	}
+
+	public async getMongoClient() {
+		return this.mongoDBClient
+	}
 
 	async onModuleInit() {
 		try {
@@ -21,7 +34,6 @@ class MongoService implements OnModuleInit, OnModuleDestroy {
 			// Destructure the result from getMongoClient
 			const { collectionsRef, mongoDBClient } = await getMongoClient(
 				this.collectionName,
-				this.authInfoPath,
 				schema
 			)
 
@@ -30,15 +42,19 @@ class MongoService implements OnModuleInit, OnModuleDestroy {
 			this.mongoDBClient = mongoDBClient
 		} catch (err) {
 			console.error('Error connecting to MongoDB:', err)
-			throw err
+			throw new HttpException(
+				'Failed to add data to the database.',
+				HttpStatus.INTERNAL_SERVER_ERROR
+			)
 		}
 	}
 
-	async addDataToDB(currencyDataJSON: any): Promise<void> {
+	async addDataToDB(
+		currencyDataJSON: JSON,
+		collectionsRef: Collection<CurrencyObject>
+	): Promise<void> {
 		try {
-			console.log('Collection Name: ' + this.collectionName)
-
-			// Assuming currencyDataJSON is already in the format of CurrencyObject[]
+			// Creating an array of the JSON object
 			const currencyDataArray: CurrencyObject[] =
 				Object.values(currencyDataJSON)
 			const validData: CurrencyObject[] = []
@@ -56,23 +72,23 @@ class MongoService implements OnModuleInit, OnModuleDestroy {
 				}
 				currencyObject.Date = new Date(currencyObject.Date)
 
-				const currencyData: Record<string, any> = {}
-				let isValidCurrencyData = true
+				// Check if the record exists for the date
+				const existingRecord = await collectionsRef.findOne({
+					Date: currencyObject.Date,
+				})
+				if (existingRecord) {
+					console.error(
+						`Date ${currencyObject.Date.toISOString()} is already in the database`
+					)
+					continue // Skip this object as it already exists
+				}
+
+				// Initialize the empty currencyData
+				const currencyData: CurrencyCode = {}
 
 				for (const [currency, data] of Object.entries(
 					currencyObject.CurrencyCode
 				)) {
-					if (
-						!data ||
-						typeof data !== 'object' ||
-						data.AUDPerUnit === undefined ||
-						data.UnitsPerAUD === undefined
-					) {
-						console.error(`Invalid currency data for ${currency}`)
-						isValidCurrencyData = false
-						break
-					}
-
 					currencyData[currency] = {
 						AUDPerUnit: Decimal128.fromString(data.AUDPerUnit.toString()),
 						UnitsPerAUD: Decimal128.fromString(
@@ -81,20 +97,12 @@ class MongoService implements OnModuleInit, OnModuleDestroy {
 					}
 				}
 
-				if (
-					!isValidCurrencyData ||
-					Object.keys(currencyData).length === 0
-				) {
-					console.error('Skipping currency object due to invalid data.')
-					continue
-				}
-
 				currencyObject.CurrencyCode = currencyData
 				validData.push(currencyObject)
 			}
 
 			if (validData.length > 0) {
-				const insertResult = await this.collectionsRef.insertMany(validData)
+				const insertResult = await collectionsRef.insertMany(validData)
 				console.log(
 					`Inserted ${insertResult.insertedCount} documents into the collection.`
 				)
@@ -103,19 +111,23 @@ class MongoService implements OnModuleInit, OnModuleDestroy {
 			}
 		} catch (error) {
 			console.error('Error adding data to DB:', error)
-			throw error // Rethrow or handle as necessary
+			// Error when there is a connection issue
+			throw new HttpException(
+				'Failed to add data to the database.',
+				HttpStatus.INTERNAL_SERVER_ERROR
+			)
 		}
 	}
-
-	async removeDataByDate(date: string): Promise<void> {
+	async removeDataByDate(date: string): Promise<boolean> {
 		try {
 			const result = await this.collectionsRef.deleteMany({
 				Date: new Date(date),
 			})
 			console.log(`Deleted ${result.deletedCount} documents.`)
+			return true // Operation was successful
 		} catch (error) {
 			console.error('Error removing data from DB:', error)
-			throw error // Rethrow or handle as necessary
+			return false // Instead of throwing an error, return false to indicate failure
 		}
 	}
 
@@ -127,14 +139,15 @@ class MongoService implements OnModuleInit, OnModuleDestroy {
 			query = { Date: dateAtMidnightUTC }
 		}
 
-		const options = specificDate ? {} : { limit: 5 } // Limit to 5 if no specific date is provided
+		// Limit to 5 if no specific date is provided
+		const options = specificDate ? {} : { limit: 5 }
 		try {
 			const data = await this.collectionsRef.find(query, options).toArray()
 			console.log(`Found ${data.length} documents.`)
 			return data
 		} catch (error) {
 			console.error('Error retrieving data from DB:', error)
-			throw error // Rethrow or handle as necessary
+			throw error
 		}
 	}
 
@@ -151,20 +164,17 @@ class MongoService implements OnModuleInit, OnModuleDestroy {
 		}
 	}
 
-	async dropCollection(): Promise<void> {
+	async dropCollection(): Promise<boolean> {
 		try {
 			await this.collectionsRef.drop()
 			console.log('The collection has been successfully dropped.')
+			return true
 		} catch (error) {
 			console.error(
 				'Error dropping the collection:',
 				error instanceof Error ? error.message : error
 			)
-			throw error // Re-throw the error to handle it further up the call stack if necessary
+			return false
 		}
-	}
-
-	getClient() {
-		return this.mongoDBClient
 	}
 }

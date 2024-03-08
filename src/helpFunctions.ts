@@ -18,7 +18,6 @@ export async function jsonParser(schemaPath: string) {
 	return schema
 }
 
-
 // Helper function to validate and extract environment variables
 function validateEnvironmentVariables(env: NodeJS.ProcessEnv): Environment {
 	dotenv.config()
@@ -39,7 +38,6 @@ function validateEnvironmentVariables(env: NodeJS.ProcessEnv): Environment {
 
 export async function getMongoClient(
 	collectionName: string,
-	authInfoPath: string,
 	schema: any // Adjusted from JSON to any for flexibility with MongoDB schema validation
 ): Promise<{
 	collectionsRef: Collection<CurrencyObject>
@@ -62,8 +60,8 @@ export async function getMongoClient(
 			db.collection<CurrencyObject>(collectionName)
 
 		return { collectionsRef, mongoDBClient } // Changed to return db instead of mongoDBClient directly
-	} catch (err) {
-		console.error(`Unable to connect to the server: ${err}`)
-		throw err
+	} catch (error) {
+		console.error(`Unable to connect to the server: ${error}`)
+		throw error
 	}
 }

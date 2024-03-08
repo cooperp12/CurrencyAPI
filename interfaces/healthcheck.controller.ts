@@ -1,4 +1,4 @@
-import { Controller, Get } from '@nestjs/common'
+import { Controller, Get, HttpException, HttpStatus } from '@nestjs/common'
 import { MongoService } from './currency.service'
 
 @Controller('health-check')
@@ -8,12 +8,15 @@ export class HealthCheckController {
 	@Get()
 	async checkMongoConnection() {
 		try {
-			const client = this.mongoService.getClient()
+			const client = await this.mongoService.getMongoClient()
 			await client.db().admin().ping()
 			return 'MongoDB connection is healthy'
 		} catch (error) {
 			console.error('MongoDB connection error:', error)
-			return 'MongoDB connection is down'
+			throw new HttpException(
+				'Failed to connect to the database.',
+				HttpStatus.INTERNAL_SERVER_ERROR
+			)
 		}
 	}
 }

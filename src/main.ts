@@ -6,7 +6,7 @@ async function bootstrap() {
 	await app.listen(3000)
 	let url = await app.getUrl()
 	// Replace `[::1]` with `localhost` if present in the URL
-	url = url.replace('[::1]', 'localhost') 
+	url = url.replace('[::1]', 'localhost')
 	console.log(`Application is running on: ${url}`)
 
 	process.on('SIGINT', async () => {
@@ -19,7 +19,6 @@ async function bootstrap() {
 		await app.close()
 	})
 }
-
 
 //npx prettier --write "**/*.ts"
 bootstrap().catch((err) => {
