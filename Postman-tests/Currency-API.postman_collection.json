@@ -7,7 +7,7 @@
 	},
 	"item": [
 		{
-			"name": "http://localhost:3000/currency-data/add",
+			"name": "http://localhost:{{PORT}}/currency-data/add",
 			"request": {
 				"method": "POST",
 				"header": [
@@ -27,12 +27,12 @@
 					}
 				},
 				"url": {
-					"raw": "http://localhost:3000/currency-data/add",
+					"raw": "http://localhost:{{PORT}}/currency-data/add",
 					"protocol": "http",
 					"host": [
 						"localhost"
 					],
-					"port": "3000",
+					"port": "{{PORT}}",
 					"path": [
 						"currency-data",
 						"add"
@@ -43,7 +43,7 @@
 			"response": []
 		},
 		{
-			"name": "http://localhost:3000/currency-data/remove",
+			"name": "http://localhost:{{PORT}}/currency-data/remove",
 			"request": {
 				"method": "DELETE",
 				"header": [
@@ -63,12 +63,12 @@
 					}
 				},
 				"url": {
-					"raw": "http://localhost:3000/currency-data/remove",
+					"raw": "http://localhost:{{PORT}}/currency-data/remove",
 					"protocol": "http",
 					"host": [
 						"localhost"
 					],
-					"port": "3000",
+					"port": "{{PORT}}",
 					"path": [
 						"currency-data",
 						"remove"
@@ -78,7 +78,7 @@
 			"response": []
 		},
 		{
-			"name": "http://localhost:3000/currency-data/getInformation",
+			"name": "http://localhost:{{PORT}}/currency-data/getInformation",
 			"protocolProfileBehavior": {
 				"disableBodyPruning": true
 			},
@@ -101,12 +101,12 @@
 					}
 				},
 				"url": {
-					"raw": "http://localhost:3000/currency-data/getInformation",
+					"raw": "http://localhost:{{PORT}}/currency-data/getInformation",
 					"protocol": "http",
 					"host": [
 						"localhost"
 					],
-					"port": "3000",
+					"port": "{{PORT}}",
 					"path": [
 						"currency-data",
 						"getInformation"
@@ -116,17 +116,17 @@
 			"response": []
 		},
 		{
-			"name": "http://localhost:3000/currency-data/getInformation Copy",
+			"name": "http://localhost:{{PORT}}/currency-data/getInformation Copy",
 			"request": {
 				"method": "GET",
 				"header": [],
 				"url": {
-					"raw": "http://localhost:3000/currency-data/getInformation",
+					"raw": "http://localhost:{{PORT}}/currency-data/getInformation",
 					"protocol": "http",
 					"host": [
 						"localhost"
 					],
-					"port": "3000",
+					"port": "{{PORT}}",
 					"path": [
 						"currency-data",
 						"getInformation"
