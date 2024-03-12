@@ -8,6 +8,7 @@ import {
 	Post,
 } from '@nestjs/common'
 import { MongoService } from './currency.service'
+import { CurrencyObject } from './models';
 
 @Controller('currency-data')
 export class CurrencyDataController {
@@ -58,13 +59,13 @@ export class CurrencyDataController {
 			const data = await this.mongoService.getCurrencyData(body.date);
 			
 			// Loop through each object in the data array
-			data.forEach((obj: any) => {
+			data.forEach((obj: CurrencyObject) => {
 				// Extract the Date and CurrencyCode from the object
 				const date = obj.Date;
 				const currencyCodes = obj.CurrencyCode;
 				
 				// Log the date
-				console.log('Date:', date);
+				console.log('\nDate:', date);
 				
 				// Iterate through the keys of the CurrencyCode object
 				// and log the first five currency codes along with their prices
@@ -72,7 +73,11 @@ export class CurrencyDataController {
 				for (const currencyCode in currencyCodes) {
 					if (count < 5) {
 						const priceInfo = currencyCodes[currencyCode];
-						console.log(`CurrencyCode: ${currencyCode}:`, priceInfo);
+						console.log(`CurrencyCode: ${currencyCode}`);
+
+						console.log('AUDPerUnit: \t\t' + currencyCodes[currencyCode].AUDPerUnit)
+						console.log('UnitsPerAUD: \t\t' + currencyCodes[currencyCode].UnitsPerAUD)
+
 						count++;
 					} else {
 						break; // Break the loop after logging the first five currency codes
