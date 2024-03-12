@@ -52,8 +52,9 @@ class MongoService implements OnModuleInit, OnModuleDestroy {
 	async addDataToDB(
 		currencyDataJSON: JSON,
 		collectionsRef: Collection<CurrencyObject>
-	): Promise<void> {
+	): Promise<Boolean> {
 		try {
+			let insertError: Error[] = [];
 			// Creating an array of the JSON object
 			const currencyDataArray: CurrencyObject[] =
 				Object.values(currencyDataJSON)
@@ -77,8 +78,10 @@ class MongoService implements OnModuleInit, OnModuleDestroy {
 					Date: currencyObject.Date,
 				})
 				if (existingRecord) {
+					var errorString = (`Date ${currencyObject.Date.toISOString()} is already in the database`).toString()
+					insertError.push(new Error(errorString))
 					console.error(
-						`Date ${currencyObject.Date.toISOString()} is already in the database`
+						errorString
 					)
 					continue // Skip this object as it already exists
 				}
@@ -106,8 +109,17 @@ class MongoService implements OnModuleInit, OnModuleDestroy {
 				console.log(
 					`Inserted ${insertResult.insertedCount} documents into the collection.`
 				)
+				return true
 			} else {
+				if(insertError.length > 0){
+					const aggregatedError : Error = new Error('Multiple errors occurred during insertion.');
+						for (const error of insertError) {
+							aggregatedError.message += `\n${error.message}`;
+						}
+					return false
+				}
 				console.log('No valid documents to insert.')
+				return false
 			}
 		} catch (error) {
 			console.error('Error adding data to DB:', error)

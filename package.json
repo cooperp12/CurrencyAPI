@@ -7,7 +7,6 @@
     "build": "tsc -p tsconfig.json",
     "start": "npm run build && node dist/src/main.js",
     "start:dev": "npm run format && npm run build && node dist/src/main.js"
-
   },
   "dependencies": {
     "@nestjs/common": "^10.3.3",
@@ -22,6 +21,6 @@
     "autoprefixer": "^10.0.1",
     "eslint": "^8",
     "prettier": "^3.2.5",
-    "typescript": "^5.3.3"
+    "typescript": "^5.4.2"
   }
 }

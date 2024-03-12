@@ -9,8 +9,16 @@ const fs = {
 }
 
 export async function jsonParser(schemaPath: string) {
-	// Read the content of the JSON file
-	const data = fs.readFileSync(schemaPath, 'utf8')
+	let data
+	
+	try{
+		// Read the content of the JSON file
+		data = fs.readFileSync(schemaPath, 'utf8')
+	}
+	catch (error){
+		console.error(`Unable to read in JSON object: ${error}`)
+		throw error
+	}
 
 	// Parse the JSON data
 	const schema = JSON.parse(data)
@@ -20,8 +28,13 @@ export async function jsonParser(schemaPath: string) {
 
 // Helper function to validate and extract environment variables
 function validateEnvironmentVariables(env: NodeJS.ProcessEnv): Environment {
+	//try to read in the .env, if it does not exist throw an error
+	if (!fs.readFileSync('.env', 'utf8')) {
+        throw new Error('.env file does not exist.');
+    }
+
 	dotenv.config()
-	//USERNAME here for env.USERNAME was treating 'r' as '/r' (?)_
+	//USERNAME here for env.USERNAME was concatenating it
 	const USERNAME = env.LOGIN
 	const PASSWORD = env.PASSWORD
 	const CLUSTER = env.CLUSTER

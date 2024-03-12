@@ -17,11 +17,17 @@ export class CurrencyDataController {
 	async addCurrencyData(@Body() currencyDataJSON: any) {
 		//console.log(currencyDataJSON); // Log the received data
 		try {
-			await this.mongoService.addDataToDB(
+			let insertDataBool: Boolean;
+			insertDataBool = await this.mongoService.addDataToDB(
 				currencyDataJSON,
 				await this.mongoService.getCollectionRef()
 			)
-			return { message: 'Data successfully added to the database.' }
+			
+			if(insertDataBool) { 
+				return {message: 'Data successfully added to the database.'} 
+			} else{
+				return {message: 'Data was NOT added to the database.'} 
+			}
 		} catch (error) {
 			console.error('Error adding data:', error)
 			throw new HttpException(
@@ -49,14 +55,39 @@ export class CurrencyDataController {
 	async getCurrencyData(@Body() body: { date: string }) {
 		try {
 			// data was used as it may be one or many objects in the collection
-			const data = await this.mongoService.getCurrencyData(body.date)
-			return { CurrencyObject: data }
+			const data = await this.mongoService.getCurrencyData(body.date);
+			
+			// Loop through each object in the data array
+			data.forEach((obj: any) => {
+				// Extract the Date and CurrencyCode from the object
+				const date = obj.Date;
+				const currencyCodes = obj.CurrencyCode;
+				
+				// Log the date
+				console.log('Date:', date);
+				
+				// Iterate through the keys of the CurrencyCode object
+				// and log the first five currency codes along with their prices
+				let count = 0;
+				for (const currencyCode in currencyCodes) {
+					if (count < 5) {
+						const priceInfo = currencyCodes[currencyCode];
+						console.log(`CurrencyCode: ${currencyCode}:`, priceInfo);
+						count++;
+					} else {
+						break; // Break the loop after logging the first five currency codes
+					}
+				}
+			});
+	
+			return { CurrencyObject: data };
 		} catch (error) {
-			console.error('Error getting data:', error)
+			console.error('Error getting data:', error);
 			throw new HttpException(
 				'Failed to get data from the database.',
 				HttpStatus.INTERNAL_SERVER_ERROR
-			)
+			);
 		}
 	}
+	
 }
