@@ -10,12 +10,11 @@ const fs = {
 
 export async function jsonParser(schemaPath: string) {
 	let data
-	
-	try{
+
+	try {
 		// Read the content of the JSON file
 		data = fs.readFileSync(schemaPath, 'utf8')
-	}
-	catch (error){
+	} catch (error) {
 		console.error(`Unable to read in JSON object: ${error}`)
 		throw error
 	}
@@ -30,8 +29,8 @@ export async function jsonParser(schemaPath: string) {
 function validateEnvironmentVariables(env: NodeJS.ProcessEnv): Environment {
 	//try to read in the .env, if it does not exist throw an error
 	if (!fs.readFileSync('.env', 'utf8')) {
-        throw new Error('.env file does not exist.');
-    }
+		throw new Error('.env file does not exist.')
+	}
 
 	dotenv.config()
 	//USERNAME here for env.USERNAME was concatenating it
@@ -77,4 +76,39 @@ export async function getMongoClient(
 		console.error(`Unable to connect to the server: ${error}`)
 		throw error
 	}
+}
+
+export async function iterateOver(
+	jsonData: CurrencyObject[],
+	numberOfIterations: number
+): Promise<void> {
+	// Loop through each object in the data array
+	jsonData.forEach((obj: CurrencyObject) => {
+		// Extract the Date and CurrencyCode from the object
+		const date = obj.Date
+		const currencyCodes = obj.CurrencyCode
+
+		console.log('\nDate:', date.toDateString())
+
+		// Iterate through the keys of the CurrencyCode object
+		// and log the first five currency codes along with their prices
+		let count = 0
+		for (const currencyCode in currencyCodes) {
+			if (count < numberOfIterations) {
+				const priceInfo = currencyCodes[currencyCode]
+				console.log(`CurrencyCode: ${currencyCode}`)
+
+				console.log(
+					'\t\tAUDPerUnit:\t' + currencyCodes[currencyCode].AUDPerUnit
+				)
+				console.log(
+					'\t\tUnitsPerAUD:\t' + currencyCodes[currencyCode].UnitsPerAUD
+				)
+
+				count++
+			} else {
+				break
+			}
+		}
+	})
 }
