@@ -15,8 +15,8 @@ To set up the project, ensure you have Node.js and npm installed. Then follow th
 
 1. Clone the repository to your local machine.
 2. Navigate to the project directory and run `npm install` to install the dependencies.
-- You may need to run `npm install typescript` if you recieve an error when typescript is compiling the code.
-3. Ensure MongoDB is running and accessible. You will need to add a `.env` file with the appropriate variables. 
+   2.1. You may need to run `npm install typescript` if you receive an error when TypeScript is compiling the code.
+3. Ensure MongoDB is running and accessible. You will need to add a `.env` file with the appropriate variables.
 
 ## Usage
 
