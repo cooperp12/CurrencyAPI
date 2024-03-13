@@ -32,7 +32,7 @@ The service exposes three main endpoints:
 This project includes several npm scripts for development and production purposes:
 
 - `npm run format`: Formats code using Prettier for consistent code style.
-- `npm test`: To run Jest tests (Feature development is ongoing)
+- `npm test`: To run the Jest test/s (Feature development is ongoing).
 - `npm run build`: Compiles the TypeScript code into JavaScript, preparing it for execution.
 - `npm run start`: Compiles the code and starts the application. Use this for production.
 - `npm run start:dev`: Formats the code, compiles it, and starts the application with Node.js. Ideal for development environments.
