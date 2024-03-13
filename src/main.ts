@@ -1,7 +1,8 @@
 import { NestFactory } from '@nestjs/core'
 import { AppModule } from './app.module'
 
-async function bootstrap() {
+// added export to test in jest
+export async function bootstrap() {
 	const app = await NestFactory.create(AppModule)
 	await app.listen(3000)
 	let url = await app.getUrl()
