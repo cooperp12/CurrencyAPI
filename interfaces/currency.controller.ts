@@ -8,8 +8,7 @@ import {
 	Post,
 } from '@nestjs/common'
 import { MongoService } from './currency.service'
-import { CurrencyObject } from './models'
-import { iterateOver } from '../src/helpFunctions'
+import { iterateOver } from './helpFunctions'
 
 @Controller('currency-data')
 export class CurrencyDataController {

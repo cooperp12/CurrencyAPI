@@ -1,5 +1,4 @@
-import { jsonParser } from '../src/helpFunctions'
-import { getMongoClient } from '../src/helpFunctions'
+import { getMongoClient, jsonParser } from './helpFunctions'
 import {
 	Injectable,
 	OnModuleInit,
