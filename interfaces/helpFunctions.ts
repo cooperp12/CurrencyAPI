@@ -26,7 +26,7 @@ export async function jsonParser(schemaPath: string) {
 }
 
 // Helper function to validate and extract environment variables
-function validateEnvironmentVariables(env: NodeJS.ProcessEnv): Environment {
+export function validateEnvironmentVariables(env: NodeJS.ProcessEnv): Environment {
 	//try to read in the .env, if it does not exist throw an error
 	if (!fs.readFileSync('.env', 'utf8')) {
 		throw new Error('.env file does not exist.')
@@ -38,12 +38,18 @@ function validateEnvironmentVariables(env: NodeJS.ProcessEnv): Environment {
 	const PASSWORD = env.PASSWORD
 	const CLUSTER = env.CLUSTER
 
-	if (!USERNAME || !PASSWORD || !CLUSTER) {
-		// Throw a more specific error if you like
-		throw new Error(
-			'One or more required environment variables are missing or invalid.'
-		)
+	if (!USERNAME) {
+		throw new Error('The USERNAME environment variable is missing or invalid.');
 	}
+	
+	if (!PASSWORD) {
+		throw new Error('The PASSWORD environment variable is missing or invalid.');
+	}
+	
+	if (!CLUSTER) {
+		throw new Error('The CLUSTER environment variable is missing or invalid.');
+	}
+	
 
 	return { USERNAME, PASSWORD, CLUSTER }
 }
