@@ -18,6 +18,25 @@ To set up the project, ensure you have Node.js and npm installed. Then follow th
    2.1. You may need to run `npm install typescript` if you receive an error when TypeScript is compiling the code.
 3. Ensure MongoDB is running and accessible. You will need to add a `.env` file with the appropriate variables.
 
+### .env format
+The .env file should contain the following three lines:
+
+LOGIN="<YOUR_USERNAME>"
+PASSWORD="<YOUR_PASSWORD>"
+CLUSTER="<YOUR_CLUSTER_INFORMATION>"
+
+Replace `<YOUR_USERNAME>`, `<YOUR_PASSWORD>`, and `<YOUR_CLUSTER_INFORMATION>` with your actual MongoDB username, password, and cluster information respectively.
+
+For `CLUSTER`, only include the information after the `@` symbol and before the first forward slash `/` in your MongoDB connection string. Including any additional information may cause a connection failure.
+
+For example, if your MongoDB connection string is:
+
+`mongodb+srv://<LOGIN>:<PASSWORD>@<CLUSTER>>/?retryWrites=true&w=majority&appName=Cluster0`
+
+You would extract the `<CLUSTER>` information and use that for the `CLUSTER` variable in your .env file.
+
+Please ensure that your .env file matches this format. If you encounter any issues, you may need to edit the `helpFunctions.ts` file accordingly.
+
 ## Usage
 
 The service exposes three main endpoints:
