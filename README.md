@@ -19,6 +19,7 @@ To set up the project, ensure you have Node.js and npm installed. Then follow th
 3. Ensure MongoDB is running and accessible. You will need to add a `.env` file with the appropriate variables.
 
 ### .env format
+
 The .env file should contain the following three lines:
 
 LOGIN="<YOUR_USERNAME>"
